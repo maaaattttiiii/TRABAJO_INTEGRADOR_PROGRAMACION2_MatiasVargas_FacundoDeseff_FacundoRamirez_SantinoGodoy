@@ -15,7 +15,6 @@ public class Pedido extends Base {
         this.fechaPedido = LocalDateTime.now();
     }
 
-
     // Getters y Setters
     public LocalDateTime getFechaPedido() { return fechaPedido; }
     public void setFechaPedido(LocalDateTime fechaPedido) { this.fechaPedido = fechaPedido; }
