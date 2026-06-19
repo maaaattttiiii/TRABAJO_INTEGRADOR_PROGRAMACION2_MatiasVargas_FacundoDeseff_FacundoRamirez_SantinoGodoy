@@ -24,6 +24,7 @@ public class main {
         Categoria catHamburguesas = new Categoria();
         catHamburguesas.setNombre("Hamburguesas");
 
+
         Producto burger = new Producto();
         burger.setNombre("Hamburguesa Completa");
         burger.setPrecio(6500.0);

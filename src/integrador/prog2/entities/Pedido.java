@@ -37,6 +37,7 @@ public class Pedido extends Base implements Calculable { // <--- Acá implementa
         return this.total;
     }
 
+
     // Método auxiliar para agregar renglones al pedido fácilmente
     public void agregarDetalle(DetallePedido detalle) {
         this.detalles.add(detalle);
