@@ -28,7 +28,7 @@ public class DetallePedido extends Base {
         return subtotal;
     }
 
-    public Producto getProducto() {
+    public Producto getProducto(){
         return producto;
     }
 
