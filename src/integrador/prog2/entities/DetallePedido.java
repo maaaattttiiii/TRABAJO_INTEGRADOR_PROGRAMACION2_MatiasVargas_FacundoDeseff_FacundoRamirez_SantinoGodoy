@@ -11,7 +11,7 @@ public class DetallePedido extends Base {
         this.subtotal = calcularSubtotal();
     }
 
-    private Double calcularSubtotal(){
+    private Double calcularSubtotal() {
         return this.cantidad * this.producto.getPrecio();
     }
 
