@@ -1,27 +1,42 @@
 package integrador.prog2.services;
 
+import integrador.prog2.entities.DetallePedido;
 import integrador.prog2.entities.Pedido;
 import integrador.prog2.enums.Estado;
 import integrador.prog2.exception.ValidacionNegocioException;
 
 public class PedidoService {
 
-    // Método para validar y procesar un pedido antes de cocinarlo
+    // 💡 CONEXIÓN: El servicio de pedidos ahora conoce a los otros servicios
+    private UsuarioService usuarioService = new UsuarioService();
+    private ProductoService productoService = new ProductoService();
+
     public void procesarPedido(Pedido pedido) throws ValidacionNegocioException {
-        System.out.println("🔍 Validando el pedido Nro: " + pedido.getId() + "...");
+        System.out.println("🔍 [Service] Iniciando validación profunda del pedido Nro: " + pedido.getId() + "...");
 
-        // REGLA DE NEGOCIO: No se puede procesar un pedido que no tenga productos cargados
+        // 1. Validar el Usuario que hizo la compra
+        if (pedido.getUsuario() == null) {
+            throw new ValidacionNegocioException("🔴 Error de Negocio: El pedido no tiene un usuario asignado.");
+        }
+        // Usás tu propio servicio para validar al cliente
+        usuarioService.validarUsuario(pedido.getUsuario());
+
+        // 2. Validar que tenga productos
         if (pedido.getDetalles() == null || pedido.getDetalles().isEmpty()) {
-            throw new ValidacionNegocioException("🔴 Error de Negocio: No se puede procesar un pedido sin renglones (detalles).");
+            throw new ValidacionNegocioException("🔴 Error de Negocio: No se puede procesar un pedido sin renglones.");
         }
 
-        // REGLA DE NEGOCIO: Si el total es 0 o negativo, también es inválido
-        if (pedido.getTotal() == null || pedido.getTotal() <= 0) {
-            throw new ValidacionNegocioException("🔴 Error de Negocio: El total del pedido debe ser mayor a $0.");
+        // 3. Validar cada Producto que está adentro de la lista
+        for (DetallePedido detalle : pedido.getDetalles()) {
+            if (detalle.getProducto() == null) {
+                throw new ValidacionNegocioException("🔴 Error de Negocio: Hay un renglón con un producto inexistente.");
+            }
+            // Usás el servicio de productos para validar precio, categoría, etc.
+            productoService.validarProducto(detalle.getProducto());
         }
 
-        // Si pasó todas las validaciones, le cambiamos el estado a CONFIRMADO (según enum del grupo)
+        // 4. Si todo el mapa de objetos es legal, se confirma
         pedido.setEstado(Estado.CONFIRMADO);
-        System.out.println("✅ ¡Pedido aprobado con éxito! Estado actual: " + pedido.getEstado());
+        System.out.println("✅ [Service] ¡Pedido e integrantes verificados con éxito! Estado: " + pedido.getEstado());
     }
 }

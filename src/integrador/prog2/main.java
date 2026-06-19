@@ -1,40 +1,46 @@
 package integrador.prog2;
 
 import integrador.prog2.controllers.PedidoController;
+import integrador.prog2.entities.Categoria;
 import integrador.prog2.entities.DetallePedido;
 import integrador.prog2.entities.Pedido;
 import integrador.prog2.entities.Producto;
+import integrador.prog2.entities.Usuario;
 
 public class main {
     public static void main(String[] args) {
         System.out.println("=========================================");
-        System.out.println("🎛️ Testeando la capa de Controladores...");
+        System.out.println("🚀 Testeando Validación Interconectada...");
         System.out.println("=========================================");
 
-        // 1. Instanciamos el controlador (la mesa de entrada)
         PedidoController pedidoController = new PedidoController();
 
-        // 2. Creamos un pedido VÁLIDO (con un producto de $5000)
-        Pedido pedidoOk = new Pedido();
-        Producto prod = new Producto();
-        prod.setNombre("Super Pancho");
-        prod.setPrecio(5000.0);
+        // 1. Creamos un usuario válido con todos sus campos
+        Usuario clienteOk = new Usuario();
+        clienteOk.setNombre("Facundo");
+        clienteOk.setApellido("Deseff");
+        clienteOk.setMail("facu@gmail.com");
 
-        DetallePedido detalle = new DetallePedido(1, prod.getPrecio(), prod, pedidoOk);
-        pedidoOk.agregarDetalle(detalle);
+        // 2. Creamos una categoría y producto válidos
+        Categoria catGaseosas = new Categoria();
+        catGaseosas.setNombre("Gaseosas");
 
-        // 3. Creamos un pedido TRUCHO (completamente vacío)
-        Pedido pedidoTrucho = new Pedido();
+        Producto coca = new Producto();
+        coca.setNombre("Coca Cola 500ml");
+        coca.setPrecio(1800.0);
+        coca.setCategoria(catGaseosas);
 
-        // 4. Se los mandamos al controlador
-        System.out.println("--- Enviando pedido correcto al controlador ---");
-        pedidoController.registrarPedido(pedidoOk);
+        // 3. Armamos el pedido correcto
+        Pedido pedidoValido = new Pedido();
+        pedidoValido.setUsuario(clienteOk); // Tiene usuario ok
 
-        System.out.println("\n--- Enviando pedido vacío al controlador ---");
-        pedidoController.registrarPedido(pedidoTrucho);
+        DetallePedido detalleOk = new DetallePedido(2, coca.getPrecio(), coca, pedidoValido);
+        pedidoValido.agregarDetalle(detalleOk); // Tiene productos ok
 
-        System.out.println("=========================================");
-        System.out.println("🏁 Fin del test de arquitectura por capas.");
+        // 4. Se lo mandamos al controlador
+        System.out.println("--- Ejecutando pedido con datos 100% válidos ---");
+        pedidoController.registrarPedido(pedidoValido);
+
         System.out.println("=========================================");
     }
 }
