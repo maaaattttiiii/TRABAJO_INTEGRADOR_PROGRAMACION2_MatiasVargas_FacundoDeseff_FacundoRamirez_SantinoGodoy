@@ -7,33 +7,17 @@ public abstract class Base {
     private boolean eliminado;
     private LocalDateTime createdAt;
 
-    public Base(Long id) {
-        this.id = id;
-        this.eliminado = false;
+    public Base() {
         this.createdAt = LocalDateTime.now();
-    }
-    
-    public Long getId() {
-        return id;
+        this.eliminado = false;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public boolean isEliminado() {
-        return eliminado;
-    }
+    public boolean isEliminado() { return eliminado; }
+    public void setEliminado(boolean eliminado) { this.eliminado = eliminado; }
 
-    public void setEliminado(boolean eliminado) {
-        this.eliminado = eliminado;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
