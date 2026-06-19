@@ -1,39 +1,50 @@
 package integrador.prog2;
 
-import integrador.prog2.entities.Pedido;
-import integrador.prog2.entities.Usuario;
-import integrador.prog2.enums.Rol;
+import integrador.prog2.entities.Producto;
+import integrador.prog2.entities.Categoria;
 import integrador.prog2.exception.ValidacionNegocioException;
-import integrador.prog2.services.PedidoService;
+import integrador.prog2.services.ProductoService;
 
 public class main {
     public static void main(String[] args) {
         System.out.println("=========================================");
-        System.out.println("🧪 Probando Validaciones del Servicio...");
+        System.out.println("🧪 Testeando el Servicio de Productos...");
         System.out.println("=========================================");
 
-        // 1. Instanciamos el servicio y un pedido vacío adrede
-        PedidoService pedidoService = new PedidoService();
-        Pedido pedidoVacio = new Pedido();
+        ProductoService productoService = new ProductoService();
 
-        Usuario cliente = new Usuario();
-        cliente.setNombre("Facu");
-        cliente.setRol(Rol.USUARIO);
-        pedidoVacio.setUsuario(cliente);
+        // 1. Creamos un producto VÁLIDO
+        Categoria catMaxi = new Categoria();
+        catMaxi.setNombre("Papas Fritas");
 
-        // 2. Intentamos procesar el pedido vacío usando un bloque try-catch
+        Producto papasOk = new Producto();
+        papasOk.setNombre("Papas Lay's");
+        papasOk.setPrecio(2500.0);
+        papasOk.setCategoria(catMaxi);
+
+        // 2. Creamos un producto INVÁLIDO (Sin categoría y precio en cero)
+        Producto papasTruchas = new Producto();
+        papasTruchas.setNombre("Papas Sueltas Anonimas");
+        papasTruchas.setPrecio(0.0); // 🔴 Rompe regla de precio <= 0
+
+        // 3. Probamos validar ambos en un try-catch
         try {
+            // El primero tendría que pasar sin problemas
+            productoService.validarProducto(papasOk);
 
-            pedidoService.procesarPedido(pedidoVacio);
+            System.out.println("-----------------------------------------");
+            System.out.println("⚠️ Ahora intentamos pasar el producto trucho...");
+
+            // El segundo tendría que hacer saltar la excepción de negocio
+            productoService.validarProducto(papasTruchas);
 
         } catch (ValidacionNegocioException e) {
-            // Si el servicio detecta el error, frena el programa acá y nos muestra su mensaje
-            System.out.println("⚠️ ¡Excepción capturada con éxito en el main!");
-            System.out.println("Mensaje del error: " + e.getMessage());
+            System.out.println("\n⚠️ ¡Excepción capturada en el main con éxito!");
+            System.out.println("Mensaje de error: " + e.getMessage());
         }
 
         System.out.println("=========================================");
-        System.out.println("🏁 El programa continuó corriendo sin romperse gracias al try-catch.");
+        System.out.println("🏁 Fin del test de productos.");
         System.out.println("=========================================");
     }
 }
