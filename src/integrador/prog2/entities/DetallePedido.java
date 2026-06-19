@@ -19,7 +19,7 @@ public class DetallePedido extends Base {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(int cantidad){
         this.cantidad = cantidad;
         this.subtotal = calcularSubtotal();
     }
