@@ -15,7 +15,7 @@ public class DetallePedido extends Base {
         return this.cantidad * this.producto.getPrecio();
     }
 
-    public int getCantidad() {
+    public int getCantidad(){
         return cantidad;
     }
 
