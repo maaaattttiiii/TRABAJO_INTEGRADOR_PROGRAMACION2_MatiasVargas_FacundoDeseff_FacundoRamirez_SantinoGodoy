@@ -5,7 +5,6 @@ import integrador.prog2.exception.ValidacionNegocioException;
 import integrador.prog2.services.ProductoService;
 
 public class ProductoController {
-
     private ProductoService productoService;
 
     public ProductoController() {
@@ -14,15 +13,12 @@ public class ProductoController {
 
     public void registrarProducto(Producto producto) {
         try {
-            System.out.println("\n🎛️ [Controller] Petición recibida para registrar un producto...");
-
-            // Delegamos la validación al servicio de productos
+            System.out.println("\n🛒 [ProductoController] Peticion recibida para registrar un producto...");
             productoService.validarProducto(producto);
-
-            System.out.println("🎛️ [Controller] Producto validado y listo para el DAO.");
+            System.out.println("🛒 [ProductoController] Producto validado y listo para el DAO.");
         } catch (ValidacionNegocioException e) {
-            System.out.println("🎛️ [Controller] Error de negocio al validar producto:");
-            System.out.println("👉 " + e.getMessage());
+            System.out.println("🛒 [ProductoController] Error al validar producto:");
+            System.out.println("   -> " + e.getMessage());
         }
     }
 }

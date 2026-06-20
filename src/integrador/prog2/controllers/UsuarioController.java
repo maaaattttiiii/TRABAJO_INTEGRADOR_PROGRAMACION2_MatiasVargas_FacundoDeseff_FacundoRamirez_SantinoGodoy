@@ -5,7 +5,6 @@ import integrador.prog2.exception.ValidacionNegocioException;
 import integrador.prog2.services.UsuarioService;
 
 public class UsuarioController {
-
     private UsuarioService usuarioService;
 
     public UsuarioController() {
@@ -14,15 +13,12 @@ public class UsuarioController {
 
     public void registrarUsuario(Usuario usuario) {
         try {
-            System.out.println("\n🎛️ [Controller] Petición recibida para registrar un usuario...");
-
-            // Delegamos la validación al servicio de usuarios
+            System.out.println("\n👤 [UsuarioController] Peticion recibida para registrar un usuario...");
             usuarioService.validarUsuario(usuario);
-
-            System.out.println("🎛️ [Controller] Usuario validado correctamente.");
+            System.out.println("👤 [UsuarioController] Usuario validado correctamente.");
         } catch (ValidacionNegocioException e) {
-            System.out.println("🎛️ [Controller] Error de negocio al validar usuario:");
-            System.out.println("👉 " + e.getMessage());
+            System.out.println("👤 [UsuarioController] Error al validar usuario:");
+            System.out.println("   -> " + e.getMessage());
         }
     }
 }
