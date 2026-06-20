@@ -7,13 +7,24 @@ public class Usuario extends Base {
     private String apellido;
     private String mail;
     private String celular;
-    private String contraseña;
+    private String contrasenia;
     private Rol rol;
 
+    // Constructor vacío
     public Usuario() {
         super();
     }
 
+    // Constructor con parámetros principales
+    public Usuario(String nombre, String apellido, String mail) {
+        super();
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.mail = mail;
+        this.rol = Rol.USUARIO;
+    }
+
+    // Getters y Setters
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
@@ -22,13 +33,4 @@ public class Usuario extends Base {
 
     public String getMail() { return mail; }
     public void setMail(String mail) { this.mail = mail; }
-
-    public String getCelular() { return celular; }
-    public void setCelular(String celular) { this.celular = celular; }
-
-    public String getContraseña() { return contraseña; }
-    public void setContraseña(String contraseña) { this.contraseña = contraseña; }
-
-    public Rol getRol() { return rol; }
-    public void setRol(Rol rol) { this.rol = rol; }
 }

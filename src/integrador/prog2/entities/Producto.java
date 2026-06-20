@@ -3,15 +3,19 @@ package integrador.prog2.entities;
 public class Producto extends Base {
     private String nombre;
     private Double precio;
-    private String descripcion;
-    private int stock;
-    private String imagen;
-    private boolean disponible;
-    private Categoria categoria; // Relación con la clase Categoria
+    private Categoria categoria;
 
-    // Constructor vacío
+    // Constructor vacío (obligatorio)
     public Producto() {
         super();
+    }
+
+    // Constructor con parámetros para crear productos rápido
+    public Producto(String nombre, Double precio, Categoria categoria) {
+        super();
+        this.nombre = nombre;
+        this.precio = precio;
+        this.categoria = categoria;
     }
 
     // Getters y Setters
@@ -20,18 +24,6 @@ public class Producto extends Base {
 
     public Double getPrecio() { return precio; }
     public void setPrecio(Double precio) { this.precio = precio; }
-
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-
-    public int getStock() { return stock; }
-    public void setStock(int stock) { this.stock = stock; }
-
-    public String getImagen() { return imagen; }
-    public void setImagen(String imagen) { this.imagen = imagen; }
-
-    public boolean isDisponible() { return disponible; }
-    public void setDisponible(boolean disponible) { this.disponible = disponible; }
 
     public Categoria getCategoria() { return categoria; }
     public void setCategoria(Categoria categoria) { this.categoria = categoria; }

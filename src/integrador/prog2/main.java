@@ -1,8 +1,9 @@
 package integrador.prog2;
 
 import integrador.prog2.controllers.PedidoController;
+import integrador.prog2.controllers.ProductoController;
+import integrador.prog2.controllers.UsuarioController;
 import integrador.prog2.entities.Categoria;
-import integrador.prog2.entities.DetallePedido;
 import integrador.prog2.entities.Pedido;
 import integrador.prog2.entities.Producto;
 import integrador.prog2.entities.Usuario;
@@ -10,37 +11,37 @@ import integrador.prog2.entities.Usuario;
 public class main {
     public static void main(String[] args) {
         System.out.println("=========================================");
-        System.out.println("🚀 Testeando Validación Interconectada...");
+        System.out.println("🕹️ TEST RECONTRAD DEFINITIVO DE CONTROLADORES 🕹️");
         System.out.println("=========================================");
 
+        // 1. Instanciamos los tres controladores (la mesa de entrada completa)
+        UsuarioController usuarioController = new UsuarioController();
+        ProductoController productoController = new ProductoController();
         PedidoController pedidoController = new PedidoController();
 
-        // 1. Creamos un usuario válido con todos sus campos
-        Usuario clienteOk = new Usuario();
-        clienteOk.setNombre("Facundo");
-        clienteOk.setApellido("Deseff");
-        clienteOk.setMail("facu@gmail.com");
+        System.out.println("\n--- 1. Probando Capa de Usuarios ---");
+        // Usamos el constructor nuevo que armamos por parámetros
+        Usuario clienteOk = new Usuario("Facundo", "Deseff", "facu@gmail.com");
+        usuarioController.registrarUsuario(clienteOk);
 
-        // 2. Creamos una categoría y producto válidos
+        System.out.println("\n--- 2. Probando Capa de Productos ---");
         Categoria catGaseosas = new Categoria();
         catGaseosas.setNombre("Gaseosas");
 
-        Producto coca = new Producto();
-        coca.setNombre("Coca Cola 500ml");
-        coca.setPrecio(1800.0);
-        coca.setCategoria(catGaseosas);
+        // Usamos el constructor nuevo de producto
+        Producto coca = new Producto("Coca Cola 500ml", 1800.0, catGaseosas);
+        productoController.registrarProducto(coca);
 
-        // 3. Armamos el pedido correcto
-        Pedido pedidoValido = new Pedido();
-        pedidoValido.setUsuario(clienteOk); // Tiene usuario ok
+        System.out.println("\n--- 3. Probando Flujo Completo de Pedido ---");
+        // Armamos el pedido usando la estructura de tu amigo (pide usuario en constructor)
+        Pedido pedidoValido = new Pedido(clienteOk);
+        pedidoValido.addDetallePedido(2, coca); // Agrega cantidad y producto
 
-        DetallePedido detalleOk = new DetallePedido(2, coca.getPrecio(), coca, pedidoValido);
-        pedidoValido.agregarDetalle(detalleOk); // Tiene productos ok
-
-        // 4. Se lo mandamos al controlador
-        System.out.println("--- Ejecutando pedido con datos 100% válidos ---");
+        // El controlador de pedidos va a validar todo de forma profunda
         pedidoController.registrarPedido(pedidoValido);
 
+        System.out.println("\n=========================================");
+        System.out.println("🏁 Fin del test de integración de capas.");
         System.out.println("=========================================");
     }
 }
