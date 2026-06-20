@@ -34,7 +34,7 @@ public class CategoriaDAO implements GenericDAO<Categoria> {
         String sql = "SELECT * FROM categoria WHERE id = ? AND eliminado = false";
 
         try (Connection conn = DatabaseConnectionPool.getConnection();
-             PreparedStatement ps = conn.prepareStatemen(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -81,7 +81,7 @@ public class CategoriaDAO implements GenericDAO<Categoria> {
 
     // --- ACTUALIZAR CATEGORÍA ---
     @Override
-    public void actualizar(Categoria entidad) {
+    public void actualizar(Categoria categoria) {
         String sql = "UPDATE categoria SET nombre = ?, descripcion = ? WHERE id = ?";
 
         try(Connection conn = DatabaseConnectionPool.getConnection();
