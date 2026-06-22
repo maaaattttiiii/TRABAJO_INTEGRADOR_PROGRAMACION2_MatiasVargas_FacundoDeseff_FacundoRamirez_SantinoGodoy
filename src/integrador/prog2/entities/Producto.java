@@ -8,7 +8,7 @@ public class Producto extends Base {
     private String image;
     private boolean disponible;
     private Categoria categoria;
-    
+
     public Producto() {
         super();
         this.disponible = true; // Por defecto lo hacemos disponible

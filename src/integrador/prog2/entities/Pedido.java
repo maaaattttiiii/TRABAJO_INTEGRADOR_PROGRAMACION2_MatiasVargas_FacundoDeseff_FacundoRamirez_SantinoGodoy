@@ -56,4 +56,16 @@ public class Pedido extends Base implements Calculable {
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
     public Estado getEstado() { return estado; }
     public void setEstado(Estado estado) { this.estado = estado; }
+
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "fecha=" + fecha +
+                ", total=" + total +
+                ", estado=" + estado +
+                ", formaPago=" + formaPago +
+                ", usuario=" + usuario +
+                ", detalles=" + detalles +
+                '}';
+    }
 }
