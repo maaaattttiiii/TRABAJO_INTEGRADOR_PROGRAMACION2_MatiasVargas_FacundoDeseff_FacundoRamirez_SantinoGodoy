@@ -10,12 +10,10 @@ public class Usuario extends Base {
     private String contrasenia;
     private Rol rol;
 
-    // Constructor vacío
     public Usuario() {
         super();
     }
-
-    // Constructor con parámetros principales
+    
     public Usuario(String nombre, String apellido, String mail) {
         super();
         this.nombre = nombre;
@@ -24,7 +22,6 @@ public class Usuario extends Base {
         this.rol = Rol.USUARIO;
     }
 
-    // Getters y Setters
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
@@ -33,4 +30,18 @@ public class Usuario extends Base {
 
     public String getMail() { return mail; }
     public void setMail(String mail) { this.mail = mail; }
+
+    public String getCelular() { return celular; }
+    public void setCelular(String celular) { this.celular = celular; }
+
+    public String getContrasenia() { return contrasenia; }
+    public void setContrasenia(String contrasenia) { this.contrasenia = contrasenia; }
+
+    public Rol getRol() { return rol; }
+    public void setRol(Rol rol) { this.rol = rol; }
+
+    @Override
+    public String toString() {
+        return "Usuario [nombre=" + nombre + ", apellido=" + apellido + ", mail=" + mail + ", rol=" + rol + "]";
+    }
 }
