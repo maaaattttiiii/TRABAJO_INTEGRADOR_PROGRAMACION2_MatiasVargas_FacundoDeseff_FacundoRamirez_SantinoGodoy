@@ -24,7 +24,8 @@ public class main {
             usuarioController.registrarUsuario(clienteOk);
 
             System.out.println("\n--- Test Capa de Productos ---");
-            Categoria catGaseosas = new Categoria("Gaseosas", "Bebidas carbonatadas");
+            Categoria catGaseosas = new Categoria();
+            catGaseosas.setNombre("Gaseosas");
 
             Producto coca = new Producto("Coca Cola 500ml", 1800.0, "Refresco cola", 50, catGaseosas);
             productoController.registrarProducto(coca);
