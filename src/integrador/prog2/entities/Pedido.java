@@ -14,7 +14,6 @@ public class Pedido extends Base implements Calculable {
     private Usuario usuario;
     private List<DetallePedido> detalles;
 
-    // Constructor por defecto vacío
     public Pedido() {
         super();
         this.fecha = LocalDateTime.now();
@@ -23,7 +22,6 @@ public class Pedido extends Base implements Calculable {
         this.estado = Estado.PENDIENTE;
     }
 
-    // Constructor con parámetros (el que pide el main)
     public Pedido(Usuario usuario) {
         super();
         this.usuario = usuario;
@@ -33,11 +31,33 @@ public class Pedido extends Base implements Calculable {
         this.estado = Estado.PENDIENTE;
     }
 
-    // Método para agregar detalles directamente con cantidad y producto
-    public void addDetallePedido(int cantidad, Producto producto) {
-        DetallePedido nuevoDetalle = new DetallePedido(cantidad, producto.getPrecio(), producto, this);
+    public void addDetallePedido(int cantidad, Double precioUnitario, Producto producto) {
+        DetallePedido nuevoDetalle = new DetallePedido(cantidad, precioUnitario, producto, this);
         this.detalles.add(nuevoDetalle);
         calcularTotal();
+    }
+
+    public void addDetallePedido(int cantidad, Producto producto) {
+        addDetallePedido(cantidad, producto.getPrecio(), producto);
+    }
+
+    public DetallePedido findeDetallePedidoByProducto(Producto producto) {
+        for (DetallePedido detalle : detalles) {
+            if (detalle.getProducto() != null && detalle.getProducto().equals(producto)) {
+                return detalle;
+            }
+        }
+        return null;
+    }
+
+    public boolean deleteDetallePedidoByProducto(Producto producto) {
+        DetallePedido detalle = findeDetallePedidoByProducto(producto);
+        if (detalle != null) {
+            detalles.remove(detalle);
+            calcularTotal();
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -49,29 +69,24 @@ public class Pedido extends Base implements Calculable {
         return this.total;
     }
 
-    // Getters y Setters necesarios
     public List<DetallePedido> getDetalles() { return detalles; }
     public Double getTotal() { return total; }
     public Usuario getUsuario() { return usuario; }
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
     public Estado getEstado() { return estado; }
     public void setEstado(Estado estado) { this.estado = estado; }
-    public void setTotal(Double total) {this.total = total;}
-    public LocalDateTime getFecha() {return fecha;}
-    public void setFecha(LocalDateTime fecha) {this.fecha = fecha;}
-    public FormaPago getFormaPago() {return formaPago;}
-    public void setFormaPago(FormaPago formaPago) {this.formaPago = formaPago;}
-    public void setDetalles(List<DetallePedido> detalles) {this.detalles = detalles;}
+    public void setTotal(Double total) { this.total = total; }
+    public LocalDateTime getFecha() { return fecha; }
+    public void setFecha(LocalDateTime fecha) { this.fecha = fecha; }
+    public FormaPago getFormaPago() { return formaPago; }
+    public void setFormaPago(FormaPago formaPago) { this.formaPago = formaPago; }
+    public void setDetalles(List<DetallePedido> detalles) { this.detalles = detalles; }
 
     @Override
     public String toString() {
-        return "Pedido{" +
-                "fecha=" + fecha +
-                ", total=" + total +
-                ", estado=" + estado +
-                ", formaPago=" + formaPago +
-                ", usuario=" + usuario +
-                ", detalles=" + detalles +
-                '}';
+        return "Pedido{id=" + getId() + ", fecha=" + fecha + ", total=" + total +
+                ", estado=" + estado + ", formaPago=" + formaPago +
+                ", usuario=" + (usuario != null ? usuario.getNombre() : "N/A") +
+                ", detalles=" + detalles.size() + "}";
     }
 }

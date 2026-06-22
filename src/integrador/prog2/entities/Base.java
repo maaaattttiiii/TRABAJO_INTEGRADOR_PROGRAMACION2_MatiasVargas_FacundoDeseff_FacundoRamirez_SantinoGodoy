@@ -1,6 +1,7 @@
 package integrador.prog2.entities;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public abstract class Base {
     private Long id;
@@ -21,4 +22,17 @@ public abstract class Base {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Base base = (Base) o;
+        return id != null && Objects.equals(id, base.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

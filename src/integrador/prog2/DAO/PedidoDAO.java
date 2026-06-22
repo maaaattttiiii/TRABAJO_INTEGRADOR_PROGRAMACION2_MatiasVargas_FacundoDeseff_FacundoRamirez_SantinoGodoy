@@ -37,7 +37,9 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 
     @Override
     public Optional<Pedido> buscarPorId(Long id) {
-        String sql = "SELECT * FROM pedido WHERE id = ? AND eliminado = false";
+        String sql = "SELECT p.*, u.nombre AS usr_nombre, u.apellido AS usr_apellido, u.mail AS usr_mail " +
+                     "FROM pedido p INNER JOIN usuario u ON p.id_usuario = u.id " +
+                     "WHERE p.id = ? AND p.eliminado = false";
         try (Connection conn = DatabaseConnectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
@@ -56,6 +58,9 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 
                     Usuario usuario = new Usuario();
                     usuario.setId(rs.getLong("id_usuario"));
+                    usuario.setNombre(rs.getString("usr_nombre"));
+                    usuario.setApellido(rs.getString("usr_apellido"));
+                    usuario.setMail(rs.getString("usr_mail"));
                     p.setUsuario(usuario);
                     return Optional.of(p);
                 }
@@ -69,7 +74,9 @@ public class PedidoDAO implements GenericDAO<Pedido> {
     @Override
     public List<Pedido> listar() {
         List<Pedido> pedidos = new ArrayList<>();
-        String sql = "SELECT * FROM pedido WHERE eliminado = false";
+        String sql = "SELECT p.*, u.nombre AS usr_nombre, u.apellido AS usr_apellido, u.mail AS usr_mail " +
+                     "FROM pedido p INNER JOIN usuario u ON p.id_usuario = u.id " +
+                     "WHERE p.eliminado = false";
         try (Connection conn = DatabaseConnectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -87,6 +94,9 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 
                 Usuario usuario = new Usuario();
                 usuario.setId(rs.getLong("id_usuario"));
+                usuario.setNombre(rs.getString("usr_nombre"));
+                usuario.setApellido(rs.getString("usr_apellido"));
+                usuario.setMail(rs.getString("usr_mail"));
                 p.setUsuario(usuario);
                 pedidos.add(p);
             }
@@ -156,7 +166,9 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 
     public List<Pedido> listarPorUsuario(Long idUsuario) {
         List<Pedido> pedidos = new ArrayList<>();
-        String sql = "SELECT * FROM pedido WHERE id_usuario = ? AND eliminado = false";
+        String sql = "SELECT p.*, u.nombre AS usr_nombre, u.apellido AS usr_apellido, u.mail AS usr_mail " +
+                     "FROM pedido p INNER JOIN usuario u ON p.id_usuario = u.id " +
+                     "WHERE p.id_usuario = ? AND p.eliminado = false";
         try (Connection conn = DatabaseConnectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, idUsuario);
@@ -175,6 +187,9 @@ public class PedidoDAO implements GenericDAO<Pedido> {
 
                     Usuario usuario = new Usuario();
                     usuario.setId(rs.getLong("id_usuario"));
+                    usuario.setNombre(rs.getString("usr_nombre"));
+                    usuario.setApellido(rs.getString("usr_apellido"));
+                    usuario.setMail(rs.getString("usr_mail"));
                     p.setUsuario(usuario);
                     pedidos.add(p);
                 }

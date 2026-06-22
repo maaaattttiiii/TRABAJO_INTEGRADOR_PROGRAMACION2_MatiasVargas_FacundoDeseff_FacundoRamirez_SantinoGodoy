@@ -40,7 +40,9 @@ public class ProductoDAO implements GenericDAO<Producto> {
     // --- BUSCAR PRODUCTO POR ID ---
     @Override
     public Optional<Producto> buscarPorId(Long id) {
-        String sql = "SELECT * FROM producto WHERE id = ? AND eliminado = false";
+        String sql = "SELECT p.*, c.nombre AS cat_nombre, c.descripcion AS cat_descripcion " +
+                     "FROM producto p INNER JOIN categoria c ON p.id_categoria = c.id " +
+                     "WHERE p.id = ? AND p.eliminado = false";
 
         try(Connection conn = DatabaseConnectionPool.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -60,6 +62,8 @@ public class ProductoDAO implements GenericDAO<Producto> {
                     p.setDisponible(rs.getBoolean("disponible"));
                     Categoria cat = new Categoria();
                     cat.setId(rs.getLong("id_categoria"));
+                    cat.setNombre(rs.getString("cat_nombre"));
+                    cat.setDescripcion(rs.getString("cat_descripcion"));
                     p.setCategoria(cat);
                     return Optional.of(p);
                 }
@@ -75,7 +79,9 @@ public class ProductoDAO implements GenericDAO<Producto> {
     @Override
     public List<Producto> listar() {
         List<Producto> productos = new ArrayList<>();
-        String sql = "SELECT * FROM producto WHERE eliminado = false";
+        String sql = "SELECT p.*, c.nombre AS cat_nombre, c.descripcion AS cat_descripcion " +
+                     "FROM producto p INNER JOIN categoria c ON p.id_categoria = c.id " +
+                     "WHERE p.eliminado = false";
 
         try(Connection conn = DatabaseConnectionPool.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -94,6 +100,8 @@ public class ProductoDAO implements GenericDAO<Producto> {
                 p.setDisponible(rs.getBoolean("disponible"));
                 Categoria cat = new Categoria();
                 cat.setId(rs.getLong("id_categoria"));
+                cat.setNombre(rs.getString("cat_nombre"));
+                cat.setDescripcion(rs.getString("cat_descripcion"));
                 p.setCategoria(cat);
                 productos.add(p);
             }
@@ -145,7 +153,9 @@ public class ProductoDAO implements GenericDAO<Producto> {
     // --- LISTAR PRODUCTOS POR CATEGORIA ---
     public List<Producto> listarPorCategoria(Long idCategoria) {
         List<Producto> productos = new ArrayList<>();
-        String sql = "SELECT * FROM producto WHERE id_categoria = ? AND eliminado = false";
+        String sql = "SELECT p.*, c.nombre AS cat_nombre, c.descripcion AS cat_descripcion " +
+                     "FROM producto p INNER JOIN categoria c ON p.id_categoria = c.id " +
+                     "WHERE p.id_categoria = ? AND p.eliminado = false";
 
         try (Connection conn = DatabaseConnectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -166,6 +176,8 @@ public class ProductoDAO implements GenericDAO<Producto> {
                     p.setDisponible(rs.getBoolean("disponible"));
                     Categoria cat = new Categoria();
                     cat.setId(rs.getLong("id_categoria"));
+                    cat.setNombre(rs.getString("cat_nombre"));
+                    cat.setDescripcion(rs.getString("cat_descripcion"));
                     p.setCategoria(cat);
                     productos.add(p);
                 }

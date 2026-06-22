@@ -3,7 +3,6 @@ CREATE DATABASE IF NOT EXISTS pedidos_db;
 USE pedidos_db;
 
 -- ===== HACEMOS UNA LIMPIEZA PREVIA =====
--- El orden de los DROP es clave para que no exploten las Foreign Keys
 DROP TABLE IF EXISTS detalle_pedido;
 DROP TABLE IF EXISTS pedido;
 DROP TABLE IF EXISTS producto;
@@ -55,7 +54,7 @@ CREATE TABLE pedido (
                         id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                         eliminado BOOLEAN NOT NULL DEFAULT FALSE,
                         createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                        fecha DATETIME NOT NULL, -- CORRECCIÓN: DATETIME para que coincida con LocalDateTime
+                        fecha DATETIME NOT NULL,
                         estado VARCHAR(50) NOT NULL,
                         total DECIMAL(10,2),
                         forma_pago VARCHAR(20),
@@ -70,7 +69,7 @@ CREATE TABLE detalle_pedido (
                                 eliminado BOOLEAN NOT NULL DEFAULT FALSE,
                                 createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                 cantidad INT NOT NULL DEFAULT 1,
-                                precio_unitario DECIMAL(10,2) NOT NULL, -- CORRECCIÓN: Agregado el precio unitario
+                                precio_unitario DECIMAL(10,2) NOT NULL,
                                 subtotal DECIMAL(10,2) NOT NULL,
 
                                 id_pedido BIGINT NOT NULL,

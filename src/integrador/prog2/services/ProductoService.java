@@ -2,7 +2,11 @@ package integrador.prog2.services;
 
 import integrador.prog2.DAO.ProductoDAO;
 import integrador.prog2.entities.Producto;
+import integrador.prog2.exception.EntidadNoEncontradaException;
 import integrador.prog2.exception.ValidacionNegocioException;
+
+import java.util.List;
+import java.util.Optional;
 
 public class ProductoService {
 
@@ -30,9 +34,39 @@ public class ProductoService {
         System.out.println(" El producto '" + producto.getNombre() + "' pasó todas las validaciones.");
     }
 
-    public void guardarProducto(Producto producto) {
+    public void guardarProducto(Producto producto) throws ValidacionNegocioException {
+        validarProducto(producto);
         System.out.println(" [ProductoService] Enviando producto a la base de datos...");
         productoDAO.crear(producto);
         System.out.println(" [ProductoService] Producto guardado exitosamente con ID: " + producto.getId());
+    }
+
+    public Optional<Producto> buscarPorId(Long id) {
+        return productoDAO.buscarPorId(id);
+    }
+
+    public List<Producto> listar() {
+        return productoDAO.listar();
+    }
+
+    public List<Producto> listarPorCategoria(Long idCategoria) {
+        return productoDAO.listarPorCategoria(idCategoria);
+    }
+
+    public void actualizar(Producto producto) throws ValidacionNegocioException, EntidadNoEncontradaException {
+        Optional<Producto> existente = productoDAO.buscarPorId(producto.getId());
+        if (existente.isEmpty()) {
+            throw new EntidadNoEncontradaException("🔴 Error: El producto con ID " + producto.getId() + " no existe.");
+        }
+        validarProducto(producto);
+        productoDAO.actualizar(producto);
+    }
+
+    public void eliminar(Long id) throws ValidacionNegocioException, EntidadNoEncontradaException {
+        Optional<Producto> existente = productoDAO.buscarPorId(id);
+        if (existente.isEmpty()) {
+            throw new EntidadNoEncontradaException("🔴 Error: El producto con ID " + id + " no existe.");
+        }
+        productoDAO.eliminar(id);
     }
 }
