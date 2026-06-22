@@ -13,11 +13,18 @@ public class UsuarioController {
 
     public void registrarUsuario(Usuario usuario) {
         try {
-            System.out.println("\n👤 [UsuarioController] Peticion recibida para registrar un usuario...");
+            System.out.println("\n[UsuarioController] Peticion recibida para registrar un usuario...");
             usuarioService.validarUsuario(usuario);
-            System.out.println("👤 [UsuarioController] Usuario validado correctamente.");
+            System.out.println("[UsuarioController] Usuario validado correctamente.");
+
+            usuarioService.guardarUsuario(usuario);
+            System.out.println("[UsuarioController] Usuario registrado con éxito.");
+
         } catch (ValidacionNegocioException e) {
-            System.out.println("👤 [UsuarioController] Error al validar usuario:");
+            System.out.println("[UsuarioController] Error al validar usuario:");
+            System.out.println("   -> " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("[UsuarioController] Error inesperado al registrar el usuario:");
             System.out.println("   -> " + e.getMessage());
         }
     }

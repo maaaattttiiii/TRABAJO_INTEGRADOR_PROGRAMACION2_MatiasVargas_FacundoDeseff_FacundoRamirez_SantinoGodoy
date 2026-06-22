@@ -13,11 +13,18 @@ public class ProductoController {
 
     public void registrarProducto(Producto producto) {
         try {
-            System.out.println("\n🛒 [ProductoController] Peticion recibida para registrar un producto...");
+            System.out.println("\n[ProductoController] Peticion recibida para registrar un producto...");
             productoService.validarProducto(producto);
-            System.out.println("🛒 [ProductoController] Producto validado y listo para el DAO.");
+            System.out.println("[ProductoController] Producto validado correctamente.");
+
+            productoService.guardarProducto(producto);
+            System.out.println("[ProductoController] Proceso de registro finalizado con éxito.");
+
         } catch (ValidacionNegocioException e) {
-            System.out.println("🛒 [ProductoController] Error al validar producto:");
+            System.out.println("[ProductoController] Error al validar producto:");
+            System.out.println("   -> " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("[ProductoController] Error inesperado al registrar el producto:");
             System.out.println("   -> " + e.getMessage());
         }
     }

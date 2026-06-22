@@ -13,11 +13,14 @@ public class PedidoController {
 
     public void registrarPedido(Pedido pedido) {
         try {
-            System.out.println("\n📦 [PedidoController] Peticion recibida para registrar un pedido...");
+            System.out.println("\n[PedidoController] Peticion recibida para registrar un pedido...");
             pedidoService.procesarPedido(pedido);
-            System.out.println("📦 [PedidoController] Respuesta enviada con exito.");
+            System.out.println("[PedidoController] Respuesta enviada con exito.");
         } catch (ValidacionNegocioException e) {
-            System.out.println("📦 [PedidoController] Error capturado desde el servicio:");
+            System.out.println("[PedidoController] Error capturado desde el servicio:");
+            System.out.println("   -> " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("[PedidoController] Error inesperado al procesar el pedido:");
             System.out.println("   -> " + e.getMessage());
         }
     }
