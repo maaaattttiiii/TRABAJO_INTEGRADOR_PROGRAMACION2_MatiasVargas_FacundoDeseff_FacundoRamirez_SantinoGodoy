@@ -14,29 +14,34 @@ public class main {
         System.out.println("[TEST] Verificacion de Capas y Controladores");
         System.out.println("----------------------------------------");
 
-        UsuarioController usuarioController = new UsuarioController();
-        ProductoController productoController = new ProductoController();
-        PedidoController pedidoController = new PedidoController();
+        try {
+            UsuarioController usuarioController = new UsuarioController();
+            ProductoController productoController = new ProductoController();
+            PedidoController pedidoController = new PedidoController();
 
-        System.out.println("\n--- Test Capa de Usuarios ---");
-        Usuario clienteOk = new Usuario("Facundo", "Deseff", "facu@gmail.com");
-        usuarioController.registrarUsuario(clienteOk);
+            System.out.println("\n--- Test Capa de Usuarios ---");
+            Usuario clienteOk = new Usuario("Facundo", "Deseff", "facu@gmail.com");
+            usuarioController.registrarUsuario(clienteOk);
 
-        System.out.println("\n--- Test Capa de Productos ---");
-        Categoria catGaseosas = new Categoria();
-        catGaseosas.setNombre("Gaseosas");
+            System.out.println("\n--- Test Capa de Productos ---");
+            Categoria catGaseosas = new Categoria("Gaseosas", "Bebidas carbonatadas");
 
-        Producto coca = new Producto("Coca Cola 500ml", 1800.0, catGaseosas);
-        productoController.registrarProducto(coca);
+            Producto coca = new Producto("Coca Cola 500ml", 1800.0, "Refresco cola", 50, catGaseosas);
+            productoController.registrarProducto(coca);
 
-        System.out.println("\n--- Test Flujo Completo de Pedido ---");
-        Pedido pedidoValido = new Pedido(clienteOk);
-        pedidoValido.addDetallePedido(2, coca);
+            System.out.println("\n--- Test Flujo Completo de Pedido ---");
+            Pedido pedidoValido = new Pedido(clienteOk);
+            pedidoValido.addDetallePedido(2, coca);
 
-        pedidoController.registrarPedido(pedidoValido);
+            pedidoController.registrarPedido(pedidoValido);
 
-        System.out.println("\n----------------------------------------");
-        System.out.println("[OK] Pruebas finalizadas correctamente.");
-        System.out.println("----------------------------------------");
+            System.out.println("\n----------------------------------------");
+            System.out.println("[OK] Pruebas finalizadas correctamente.");
+            System.out.println("----------------------------------------");
+
+        } catch (Exception e) {
+            System.err.println("\n[ERROR] Ocurrió un problema durante la ejecución de las pruebas:");
+            e.printStackTrace();
+        }
     }
 }
