@@ -13,7 +13,7 @@ public class Usuario extends Base {
     public Usuario() {
         super();
     }
-    
+
     public Usuario(String nombre, String apellido, String mail) {
         super();
         this.nombre = nombre;
